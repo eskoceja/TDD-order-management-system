@@ -24,15 +24,15 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public Order getOrderById(@PathVariable Long id) {
-//        return orderService.getOrderById(id);
-//    }
+    @GetMapping("/{id}")
+    ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        return new ResponseEntity<>(orderService.getOrderById(id), HttpStatus.OK);
+    }
 //
-//    //CREATE
+    //CREATE
 //    @PostMapping
-//    public Order createOrder(@RequestBody Order order) {
-//        return orderService.createOrder(order);
+//    ResponseEntity<Order> createOrder(@RequestBody Order order) {
+//        return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.CREATED);
 //    }
 //
 //    //UPDATE
