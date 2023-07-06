@@ -22,21 +22,16 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 
 @ExtendWith(MockitoExtension.class)
-
 class OrderControllerTest {
     @Mock
     private OrderService orderService;
-
     @InjectMocks
     private OrderController orderController;
-
     private MockMvc mockMvc;
-
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(orderController).build();
     }
-
     @Test
     public void getAllOrders_ShouldReturnListOfOrders() throws Exception {
         // Arrange
@@ -58,7 +53,6 @@ class OrderControllerTest {
         Mockito.verify(orderService, Mockito.times(1)).getAllOrders();
         Mockito.verifyNoMoreInteractions(orderService);
     }
-
     @Test
     public void createOrder_ShouldReturnCreatedOrder() throws Exception {
         // Arrange
@@ -69,14 +63,13 @@ class OrderControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(order)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerName", is("John Doe")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.shippingAddress", is("123 Main St")));
 
         Mockito.verify(orderService, Mockito.times(1)).createOrder(Mockito.any(Order.class));
         Mockito.verifyNoMoreInteractions(orderService);
     }
-
     @Test
     public void getOrderById_ShouldReturnCorrectOrder() throws Exception {
         // Arrange
@@ -93,7 +86,6 @@ class OrderControllerTest {
         Mockito.verify(orderService, Mockito.times(1)).getOrderById(orderId);
         Mockito.verifyNoMoreInteractions(orderService);
     }
-
     @Test
     public void updateOrder_ShouldReturnUpdatedOrder() throws Exception {
         // Arrange
@@ -113,7 +105,6 @@ class OrderControllerTest {
         Mockito.verify(orderService, Mockito.times(1)).updateOrder(orderId, updatedOrder);
         Mockito.verifyNoMoreInteractions(orderService);
     }
-
     @Test
     public void deleteOrder_ShouldReturnRemainingOrders() throws Exception {
         // Arrange
@@ -136,7 +127,6 @@ class OrderControllerTest {
         Mockito.verify(orderService, Mockito.times(1)).deleteOrder(orderId);
         Mockito.verifyNoMoreInteractions(orderService);
     }
-
     private static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
@@ -144,6 +134,4 @@ class OrderControllerTest {
             throw new RuntimeException(e);
         }
     }
-
-
 }

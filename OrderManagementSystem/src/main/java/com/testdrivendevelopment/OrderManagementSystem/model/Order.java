@@ -1,8 +1,6 @@
 package com.testdrivendevelopment.OrderManagementSystem.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -12,13 +10,15 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    // @NotEmpty(message = "Customer name is required")
     private String customerName;
+    // @PastOrPresent(message = "Order date should be in the past or present")
     private LocalDate orderDate;
+    // @NotEmpty(message = "Shipping address is required")
     private String shippingAddress;
+    // @Positive(message = "Total must be a positive value")
     private Double total;
-
-    public Order() {
-    }
+    public Order() { }
 
     public Order(String customerName, LocalDate orderDate, String shippingAddress, Double total) {
         this.customerName = customerName;
@@ -90,10 +90,5 @@ public class Order {
     public int hashCode() {
         return Objects.hash(id, customerName, orderDate, shippingAddress, total);
     }
+
 }
-
-
-// @NotEmpty(message = "Customer name is required")
-// @PastOrPresent(message = "Order date should be in the past or present")
-// @NotEmpty(message = "Shipping address is required")
-// @Positive(message = "Total must be a positive value")

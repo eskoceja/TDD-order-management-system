@@ -5,10 +5,7 @@ import com.testdrivendevelopment.OrderManagementSystem.repository.OrderRepositor
 import com.testdrivendevelopment.OrderManagementSystem.utils.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
-
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
