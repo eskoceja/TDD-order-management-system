@@ -30,10 +30,10 @@ public class OrderController {
     }
 //
     //CREATE
-//    @PostMapping
-//    ResponseEntity<Order> createOrder(@RequestBody Order order) {
-//        return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.CREATED);
-//    }
+    @PostMapping
+    ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.CREATED);
+    }
 //
 //    //UPDATE
 //    @PutMapping("/{id}")
