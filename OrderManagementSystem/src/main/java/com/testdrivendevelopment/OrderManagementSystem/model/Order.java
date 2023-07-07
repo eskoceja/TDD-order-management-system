@@ -2,8 +2,13 @@ package com.testdrivendevelopment.OrderManagementSystem.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import java.time.LocalDate;
+
+//Entity Class, must have: id, name, date, address, and total
+//must also implement validation for each field
+//constructor, getters, and setters
 
 @Entity
 @Table(name = "orders")
@@ -13,7 +18,7 @@ public class Order {
     private Long id;
      @NotEmpty(message = "Customer name is required")
     private String customerName;
-    // @PastOrPresent(message = "Order date should be in the past or present")
+     @PastOrPresent(message = "Order date should be in the past or present")
     private LocalDate orderDate;
      @NotEmpty(message = "Shipping address is required")
     private String shippingAddress;

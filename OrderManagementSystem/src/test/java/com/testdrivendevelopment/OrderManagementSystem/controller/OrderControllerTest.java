@@ -25,24 +25,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @WebMvcTest(OrderController.class)
 @AutoConfigureMockMvc
 class OrderControllerTest {
-
+    //@Autowired to wire dependencies, this case being by field injection
     @Autowired
     MockMvc mockMvc;
-
+    //mocking repository
     @MockBean
     private OrderRepository orderRepository;
 
+    //CRUD FUNCTIONALITY TESTING:
     //CREATE
     @Test
     public void createOrderTest() throws Exception {
+        //Given - mock order
         Order order = new Order("Shrek", LocalDate.now(), "123 Swamp", 100.0);
         order.setId(1L);
 
+        //When - mock behavior of orderRepository.save() and return saved order
         when(orderRepository.save(Mockito.any(Order.class))).thenAnswer(invocation -> {
             Order savedOrder = invocation.getArgument(0);
             savedOrder.setId(1L);
             return savedOrder;
         });
+
+        //Then - perform POST request to create new order
         mockMvc.perform(MockMvcRequestBuilders.post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"customerName\": \"Shrek\", \"shippingAddress\": \"123 Swamp\", \"total\": 100.0}"))
@@ -53,6 +58,7 @@ class OrderControllerTest {
     //READ
     @Test
     public void getOrderByIdTest() throws Exception {
+        //Given - mock order
         Order order = new Order();
         order.setId(1L);
         order.setCustomerName("Shrek");
@@ -60,8 +66,10 @@ class OrderControllerTest {
         order.setShippingAddress("123 Swamp");
         order.setTotal(100.0);
 
+        //When - mock behavior of orderRepository.findById() and return specified order
         when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
 
+        //Then - preform GET request to retrieve order by id
         mockMvc.perform(MockMvcRequestBuilders.get("/api/orders/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
@@ -73,6 +81,7 @@ class OrderControllerTest {
 
     @Test
     public void getAllOrdersTest() throws Exception {
+        //Given - mock orders
         Order order1 = new Order("Shrek", LocalDate.now(), "123 Swamp", 100.0);
         Order order2 = new Order("Donkey", LocalDate.now(), "Swamp Neighbor", 200.0);
         order1.setId(1L);
@@ -81,8 +90,10 @@ class OrderControllerTest {
         orderList.add(order1);
         orderList.add(order2);
 
+        //When - mock behavior of the orderRepository.findAll() and return list of orders
         when(orderRepository.findAll()).thenReturn(orderList);
 
+        //Then - preform GET request to retrieve all orders
         mockMvc.perform(MockMvcRequestBuilders.get("/api/orders")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$",hasSize(2))).andDo(print());
@@ -92,12 +103,15 @@ class OrderControllerTest {
     //UPDATE
     @Test
     public void updateOrderTest() throws Exception {
+        //Given - mock order
         Order order = new Order("Shrek", LocalDate.now(), "123 Swamp", 100.0);
         order.setId(1L);
 
+        //When - mock behavior of the orderRepository.findById and .save
         when(orderRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(order));
         when(orderRepository.save(Mockito.any(Order.class))).thenReturn(order);
 
+        //Then - preform PUT request to update existing order
         mockMvc.perform(MockMvcRequestBuilders.put("/api/orders/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"customerName\": \"Fiona\", \"shippingAddress\": \"123 Swamp Ave\", \"total\": 200.0}"))
@@ -110,21 +124,26 @@ class OrderControllerTest {
     //DELETE
     @Test
     public void deleteOrderTest() throws Exception {
+        //Given -mock order
         Order order = new Order("Shrek", LocalDate.now(), "123 Swamp", 100.0);
         order.setId(1L);
 
+        //When - mock behavior of orderRepository.findById
         when(orderRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(order));
 
+        //Then - preform DELETE request to delete order
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/orders/1"))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
-    //VALIDATION TEST CASES
+    //VALIDATION TEST CASES:
     @Test
     public void createOrder_ErrorsTest() throws Exception {
+        //Given - mock order with invalid properties
         Order order = new Order("", LocalDate.now(), "", -100.0);
         order.setId(1L);
 
+        //Then - preform POST request to create new order with validation errors
         mockMvc.perform(MockMvcRequestBuilders.post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"customerName\": \"\", \"shippingAddress\": \"\", \"total\": -100.0}"))
@@ -137,11 +156,14 @@ class OrderControllerTest {
 
     @Test
     public void updateOrder_OrderDoesNotExist() throws Exception {
+        //Given - mock order
         Order order = new Order("Shrek", LocalDate.now(), "123 Swamp", 100.0);
         order.setId(1L);
 
+        //When - mock behavior of orderRepository.findById
         when(orderRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 
+        //Then - preform PUT request to update an order that is nonexistent
         mockMvc.perform(MockMvcRequestBuilders.put("/api/orders/5")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"customerName\": \"Fiona\", \"shippingAddress\": \"123 Swamp Ave\", \"total\": 200.0}"))
@@ -150,11 +172,14 @@ class OrderControllerTest {
 
     @Test
     public void deleteOrder_OrderDoesNotExist() throws Exception {
+        //Given - mock order
         Order order = new Order();
         order.setId(7L);
 
+        //When - mock orderRepository.findById
         when(orderRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 
+        //Then - preform DELETE request to delete a nonexistent order
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/orders/7"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }

@@ -43,6 +43,8 @@ You can run the Repository tests and Controller tests by going to
 'OrderManagementSystem/src/test/java/com/testdrivendevelopment/OrderManagementSystem/repository' to access the test
 classes and run them (You can also refer to the second image below).
 
+A very fun and helpful site to get the correct HTTP requests, [click here](https://http.cat/)!
+
 ### JAR
 
 Run 'mvn package' on the command line and it shall start the program and execute a successful JAR file (refer to the
