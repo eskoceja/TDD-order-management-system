@@ -53,13 +53,13 @@ image below).
 H2 Configuration and a successful executable JAR file! For more info on how it
 works, [click here](https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.first-application.executable-jar)!
 
-![](/Users/emilykoceja/Desktop/CTAC_Program/full-stack-104/TDD-order-management-system/OrderManagementSystem/src/main/resources/source/successJAR.png)
+![](OrderManagementSystem/src/main/resources/source/successJAR.png)
 
 Test passing with 100% coverage of the controller class!
 
-![](/Users/emilykoceja/Desktop/CTAC_Program/full-stack-104/TDD-order-management-system/OrderManagementSystem/src/main/resources/source/testPassing.png)
+![](OrderManagementSystem/src/main/resources/source/testPassing.png)
 
 H2 Database view that you can access at localhost:8080/h2-console, just make sure to refer to the application.properties
 for the database url. I have also demonstrated the JSON view!
 
-![](/Users/emilykoceja/Desktop/CTAC_Program/full-stack-104/TDD-order-management-system/OrderManagementSystem/src/main/resources/source/view.png)
+![](OrderManagementSystem/src/main/resources/source/view.png)
