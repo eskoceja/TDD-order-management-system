@@ -16,7 +16,7 @@ public class LoadDatabase {
     CommandLineRunner initDatabase(OrderRepository orderRepository) {
         return args -> {
             orderRepository.save(new Order("Shrek", LocalDate.now(), "123 Swamp", 23.45));
-            orderRepository.save(new Order("Donkey", LocalDate.now(), "Swamp Neighbor", 45.32));
+            orderRepository.save(new Order("Donkey", LocalDate.now(), "456 Dragon's Den", 45.32));
 
             orderRepository.findAll().forEach(order -> {
                 log.info("Preloaded: " + order);

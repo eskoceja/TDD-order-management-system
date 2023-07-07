@@ -1,8 +1,9 @@
 package com.testdrivendevelopment.OrderManagementSystem.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -10,13 +11,13 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // @NotEmpty(message = "Customer name is required")
+     @NotEmpty(message = "Customer name is required")
     private String customerName;
     // @PastOrPresent(message = "Order date should be in the past or present")
     private LocalDate orderDate;
-    // @NotEmpty(message = "Shipping address is required")
+     @NotEmpty(message = "Shipping address is required")
     private String shippingAddress;
-    // @Positive(message = "Total must be a positive value")
+     @Positive(message = "Total must be a positive value")
     private Double total;
     public Order() { }
 
@@ -65,30 +66,6 @@ public class Order {
 
     public void setTotal(Double total) {
         this.total = total;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", customerName='" + customerName + '\'' +
-                ", orderDate=" + orderDate +
-                ", shippingAddress='" + shippingAddress + '\'' +
-                ", total=" + total +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(customerName, order.customerName) && Objects.equals(orderDate, order.orderDate) && Objects.equals(shippingAddress, order.shippingAddress) && Objects.equals(total, order.total);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, customerName, orderDate, shippingAddress, total);
     }
 
 }
